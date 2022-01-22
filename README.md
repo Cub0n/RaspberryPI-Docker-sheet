@@ -11,11 +11,8 @@ It begins on operating system level and goes till the image itself.
 * PaaS Tools
 * Images and Container
 
-
 # Operating systems
-* Raspbian
-* Debian
-* DietPI
+The operating system should be leightweight: No GUI ("headless"), no multimedia stuff, no "fat" applications or services. A good overview is [here](https://www.makeuseof.com/tag/lightweight-operating-systems-raspberry-pi/).
 
 # Configuration 
 
