@@ -1,7 +1,11 @@
-# Motivation
-RaspberryPI is a small computer for expermimants (hard- and software) and is able to provide and execute an environment for containers (PaaS).
-The goal is to have an optimized and leightweight setup for a PaaS.
-It begins on operating system level and goes till the image itself.
+# Contribution rules
+
+If you want to contribute to this list, create a PR (Pull Request) with description what you are adding. The following rules should be addressed:
+
+* Clear description
+* Keep it simple and stupid (KISS
+* Only use active open-source software and images
+* Configuration/Enhancements have to be tested.
 
 **This is an ongoing work and is not yet finished!!**
 
