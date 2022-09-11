@@ -112,7 +112,12 @@ $ sudo adduser --home /home/$USER --shell /bin/nologin --ingroup $GROUP --disabl
 $ sudo su --shell /bin/bash --login $USER
 ```
 
-* Add BUS and XDG to .bashrc (URL)
+* Add BUS and XDG to .bashrc
+```bash
+$ echo "export XDG_RUNTIME_DIR=/run/user/$UID" >> ~/.bashrc
+$ echo "export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus" >> ~/.bashrc
+```
+
 * Enable podman socket for the current user
 ```bash
 $ systemctl --user --now enable podman.socket
@@ -120,7 +125,7 @@ $ systemctl --user --now enable podman.socket
 
 * Daemon restart
 ```bash
-$ systemctl daemon-reload
+$ systemctl --user daemon-reload
 ```
 
 * Test the unix socket and expect OK as reponse
