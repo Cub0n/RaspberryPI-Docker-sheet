@@ -70,8 +70,9 @@ Installation on various OS (https://podman.io/getting-started/installation). Oft
 ### nerdctl (**NOT TESTED**)
 * https://github.com/containerd/nerdctl
 
-### DOKKU (**NOT TESTED**)
-* https://github.com/dokku/dokku
+### DOKKU
+see https://github.com/dokku/dokku. Some Buildpacks are not working on RaspberryPi2 (e.g. Herokuish)
+
 
 ## Rootless Container
 see https://rootlesscontaine.rs/
