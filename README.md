@@ -139,7 +139,7 @@ $ curl --unix-socket /run/user/$UID/podman/podman.sock http://localhost/_ping
 ```
 
 * Logout from $USER
-* ```bash
+```bash
 $ exit
 ```
 
