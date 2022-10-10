@@ -112,10 +112,15 @@ $ sudo adduser --home /home/$USER --shell /bin/nologin --ingroup $GROUP --disabl
 $ sudo su --shell /bin/bash --login $USER
 ```
 
-* Add BUS and XDG to .bashrc
+* Add BUS and XDG to .bashrc or ...
 ```bash
 $ echo "export XDG_RUNTIME_DIR=/run/user/$UID" >> ~/.bashrc
-$ echo "export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus" >> ~/.bashrc
+$ echo "export DBUS_SESSION_BUS_ADDRESS=unix:path=${XDG_RUNTIME_DIR}/bus" >> ~/.bashrc
+```
+... set via systemctl (https://unix.stackexchange.com/questions/368730/starting-a-dbus-session-application-from-systemd-user-mode):
+```bash
+$ systemctl --user set-environment XDG_RUNTIME_DIR=/run/user/$UID
+$ systemctl --user set-environment DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
 ```
 
 * Enable podman socket for the current user
@@ -130,10 +135,14 @@ $ systemctl --user daemon-reload
 
 * Test the unix socket and expect OK as reponse
 ```bash
-$ curl --unix-socket /run/user/1000/podman/podman.sock http://localhost/_ping
+$ curl --unix-socket /run/user/$UID/podman/podman.sock http://localhost/_ping
 ```
 
-* Logout $USER
+* Logout from $USER
+* ```bash
+$ exit
+```
+
 * Keep the socket alive 
 ```bash
 $ sudo loginctl enable-linger $USER
