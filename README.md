@@ -23,6 +23,7 @@ The operating system should be leightweight: No GUI ("headless"), no multimedia 
 ## Raspbian / Debian / DietPI
 * In file */boot/cmdline.txt* add *cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1* into the end of the file. (see: https://www.padok.fr/en/blog/raspberry-kubernetes)
 * For Apparmor insert *lsm=apparmor* to */boot/cmdline.txt* (https://forums.raspberrypi.com/viewtopic.php?t=66748#p1834603)
+* For better IRQ handling install *irqbalance* (see: https://www.howtouselinux.com/post/linux-performance-irqbalance-service and https://openwrt.org/docs/guide-user/services/irqbalance)
 
 # <a id="sec">Security</a>
 ## OS
