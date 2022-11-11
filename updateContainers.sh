@@ -5,7 +5,7 @@ checkImage() {
   #echo "Call image ${IMAGE_NAME} with ${1}"
 
   if [ $( echo "${IMAGE_NAME}" | grep localhost | wc -l ) -eq 0 ]; then
-    podman pull "${IMAGE_NAME}"
+    podman pull "${IMAGE_NAME}" > /dev/null 2>&1
   fi
 
   IMAGE_DIGEST=$(podman image inspect --format='{{ .Id }}' "${IMAGE_NAME}" | tr -d '"')
@@ -22,10 +22,10 @@ do
      echo "Update ${pod}"
      CMD=$(podman inspect --format '{{ .Config.CreateCommand }}' "${pod}" | tr -d '[]')
      #echo "${CMD}"
-     "${CMD}"
+     eval "${CMD}"
    fi
 done
 
-# Cleaning up
-echo "Pruning images, volumes, nets"
-podman system prune -a -f --volumes
+# Cleaning up ... if needed
+#echo "Pruning images, volumes, nets"
+#podman system prune -a -f --volumes
