@@ -24,6 +24,7 @@ The operating system should be leightweight: No GUI ("headless"), no multimedia 
 * In file */boot/cmdline.txt* add *cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1* into the end of the file. (see: https://www.padok.fr/en/blog/raspberry-kubernetes)
 * For Apparmor insert *lsm=apparmor* to */boot/cmdline.txt* (https://forums.raspberrypi.com/viewtopic.php?t=66748#p1834603)
 * For better IRQ handling install *irqbalance* (see: https://www.howtouselinux.com/post/linux-performance-irqbalance-service and https://openwrt.org/docs/guide-user/services/irqbalance)
+* Remove unnecessary packages (Desktop) in Raspbian (https://virtualzone.de/posts/raspberry-pi-os-remove-packages/)
 
 # <a id="sec">Security</a>
 ## OS
@@ -150,9 +151,12 @@ $ exit
 $ sudo loginctl enable-linger $USER
 ```
 
-* Configuration: TODO
+### Configuration: TODO
 
-Further Documentation
+### Automatic Updates of containers
+see https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/updateContainers.sh
+
+### Further Documentation
 * https://github.com/containers/podman/blob/main/docs/tutorials/rootless_tutorial.md
 * https://linoxide.com/install-podman-on-debian/
 * https://wiki.archlinux.org/title/Podman#Rootless_Podman
