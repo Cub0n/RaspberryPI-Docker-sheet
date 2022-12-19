@@ -75,6 +75,8 @@ Installation on various OS (https://podman.io/getting-started/installation). Oft
 ### DOKKU
 see https://github.com/dokku/dokku. Some Buildpacks are not working on RaspberryPi2 (e.g. Herokuish)
 
+### Caprover
+see https://caprover.com/. Caprover will not work properly if it is started in (rootless-)_podman_
 
 ## Rootless Container
 see https://rootlesscontaine.rs/
