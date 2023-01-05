@@ -89,6 +89,8 @@ Docker Rootless is not supported or available as package in Raspbian. Therefore 
 * https://mohitgoyal.co/2021/04/14/going-rootless-with-docker-and-containers/
 
 ### Podman
+**Attention:** Debian 12 (Bookworm) will have Podman 4.3.x in their repositories (https://packages.debian.org/bookworm/podman) and hence installation can differ.
+
 The podman package in the distributiuon repository works, but user sockets were not supported properly or have bugs. So install a newer version from a third party repo.
 
 * Remove all Podman and/or Container related packages from your installation (*apt purge podman slirp4netns*), if you have already installed some. Otherwise you will encounter some problems if you mix the packages from the repos.
