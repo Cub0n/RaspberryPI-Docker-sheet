@@ -70,13 +70,13 @@ Ubuntu's own minikube (https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on
 Installation on various OS (https://podman.io/getting-started/installation). Often included in distribution package repositories.
 
 ### nerdctl (**NOT TESTED**)
-* https://github.com/containerd/nerdctl
+https://github.com/containerd/nerdctl
 
 ### DOKKU
 see https://github.com/dokku/dokku. Some Buildpacks are not working on RaspberryPi2 (e.g. Herokuish)
 
 ### Caprover
-see https://caprover.com/. Caprover will not work properly if it is started in (rootless-)_podman_
+see https://caprover.com/. SideNote: Caprover will not work properly if it is started in (rootless-)_podman_
 
 ## Rootless Container
 see https://rootlesscontaine.rs/
@@ -89,9 +89,9 @@ Docker Rootless is not supported or available as package in Raspbian. Therefore 
 * https://mohitgoyal.co/2021/04/14/going-rootless-with-docker-and-containers/
 
 ### Podman
-**Attention:** Debian 12 (Bookworm) will have Podman 4.3.x in their repositories (https://packages.debian.org/bookworm/podman) and hence installation can differ.
+**Attention: Debian 12 (Bookworm) will have Podman 4.3.x in their repositories (https://packages.debian.org/bookworm/podman) and hence installation can differ**
 
-The podman package in the distributiuon repository works, but user sockets were not supported properly or have bugs. So install a newer version from a third party repo.
+The podman package in the distribution repository works, but user sockets were not supported properly or have bugs. So install a newer version from a third party repo.
 
 * Remove all Podman and/or Container related packages from your installation (*apt purge podman slirp4netns*), if you have already installed some. Otherwise you will encounter some problems if you mix the packages from the repos.
 
@@ -107,7 +107,7 @@ $ sudo apt install podman-rootless
 $ sudo apt install uidmap
 ```
 
-* Add a new user for rootless container. Username and groupname should be identical (otherwise it leads to some problems for subuid and subgid). Create the user with **no** password and **no** valid shell! DO NOT add the user to sudo group or to other system groups. The subuids and subgids should automatically be generated, if not see https://rootlesscontaine.rs/getting-started/common/subuid/
+* Add a new user for rootless container. Username and groupname should be identical (otherwise it leads to some problems for subuid and subgid). Create the user with **no** password and **no** valid shell! DO NOT add the user to sudo group or to other system groups. The subuids and subgids should automatically be generated. If not, see https://rootlesscontaine.rs/getting-started/common/subuid/
 ```bash
 $ sudo apt install adduser
 $ sudo addgroup $GROUP
