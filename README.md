@@ -154,11 +154,6 @@ $ podman system migrate --new-runtime crun
 $ podman system prune --all
 ```
 
-* If the containers will not start after migration, one trick is to delete all images and pull them again
-```bash
-$ podman system prune --all
-```
-
 * Logout from $USER
 ```bash
 $ exit
@@ -181,7 +176,7 @@ $ cp /usr/share/containers/storage.conf ~/.config/containers/
 * Configure _storage.conf_
   * driver = "overlay" (Default Storage Driver)
   * runroot = "/run/user/$UID/containers" (Temporary storage location)
-  * mount_program = "/usr/bin/fuse-overlayfs" (Path to an helper program to use for mounting the file system, programm will be installd automatically by apt)
+  * mount_program = "/usr/bin/fuse-overlayfs" (Path to an helper program to use for mounting the file system, programm will be installed automatically by apt)
 
 ### Migrate from podman start to systemd start
 
