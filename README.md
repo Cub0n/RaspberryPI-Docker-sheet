@@ -89,18 +89,7 @@ Docker Rootless is not supported or available as package in Raspbian. Therefore 
 * https://mohitgoyal.co/2021/04/14/going-rootless-with-docker-and-containers/
 
 ### Podman
-**Attention: Debian 12 (Bookworm) will have Podman 4.3.x in their repositories (https://packages.debian.org/bookworm/podman) and hence installation can differ**
-
-The podman package in the distribution repository works, but user sockets were not supported properly or have bugs. So install a newer version from a third party repo.
-
-* Remove all Podman and/or Container related packages from your installation (*apt purge podman slirp4netns*), if you have already installed some. Otherwise you will encounter some problems if you mix the packages from the repos.
-
-* Add new repository described [here](https://software.opensuse.org/download.html?project=devel%3Akubic%3Alibcontainers%3Astable&package=podman). Raspbian is based on [Debian 11 / Bullseye](https://www.debian.org/releases/stable/), so choose Debian 11 directly. **NOT TESTED**: Raspbian 10 could also work: the package and version is the same here.
-
-* Install *podman-rootless* package from the repository
-```bash
-$ sudo apt install podman-rootless
-```
+* Remove all Podman and/or Container related packages from your installation (*apt purge podman slirp4netns crun runc buildah*), if you have already installed some from other (non Debian, e.g. https://software.opensuse.org/download.html?project=devel%3Akubic%3Alibcontainers%3Astable&package=podman) sources. Otherwise you will encounter some problems if you mix the packages from the repos.
 
 * Install *uidmap* from the repo
 ```bash
@@ -112,6 +101,11 @@ $ sudo apt install uidmap
 $ sudo apt install adduser
 $ sudo addgroup $GROUP
 $ sudo adduser --home /home/$USER --shell /bin/nologin --ingroup $GROUP --disabled-password --disabled-login $USER
+```
+
+* Keep the deamons alive
+```bash
+$ sudo loginctl enable-linger $USER
 ```
 
 * login to new $USER
@@ -128,6 +122,11 @@ $ echo "export DBUS_SESSION_BUS_ADDRESS=unix:path=${XDG_RUNTIME_DIR}/bus" >> ~/.
 ```bash
 $ systemctl --user set-environment XDG_RUNTIME_DIR=/run/user/$UID
 $ systemctl --user set-environment DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
+```
+
+* Install *podman* package and other packages from the repository
+```bash
+$ sudo apt install podman
 ```
 
 * Enable podman socket for the current user
@@ -150,12 +149,42 @@ $ curl --unix-socket /run/user/$UID/podman/podman.sock http://localhost/_ping
 $ exit
 ```
 
-* Keep the socket alive 
+* If you have an older images, you have to migrate them to the new runtime (default is _crun_ on Debian)
 ```bash
-$ sudo loginctl enable-linger $USER
+$ podman system migrate --new-runtime crun
 ```
 
-### Configuration: TODO
+* If the containers will not start after migration, one trick is to delete all images and pull them again
+```bash
+$ podman system prune --all
+```
+
+* If the containers will not start after migration, one trick is to delete all images and pull them again
+```bash
+$ podman system prune --all
+```
+
+* If there still some problems, review your configuration in _~/.config/containers/_ (if you have already one for $USER) or under _/etc/containers/_ and _/etc/containers/networks/_
+
+### Configuration
+* Copy the container and storage configuration to the $USER _~/.config_ directory
+```bash
+$ cp /usr/share/containers/containers.conf ~/.config/containers/
+$ cp /usr/share/containers/storage.conf ~/.config/containers/
+```
+
+* Configure _containers.conf_ with
+  * network_backend = "netavark" (the default container network stack)
+  * runtime = "crun" (default runtime)
+  * cgroup_manager = "systemd" (for usage with systemd)
+
+* Configure _storage.conf_
+  * driver = "overlay" (Default Storage Driver)
+  * runroot = "/run/user/$UID/containers" (Temporary storage location)
+  * mount_program = "/usr/bin/fuse-overlayfs" (Path to an helper program to use for mounting the file system, programm will be installd automatically by apt)
+
+### Migrate from podman start to systemd start
+
 
 ### Automatic Updates of containers
 see https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/updateContainers.sh
@@ -165,6 +194,7 @@ see https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/
 * https://linoxide.com/install-podman-on-debian/
 * https://wiki.archlinux.org/title/Podman#Rootless_Podman
 * https://howtoforge.com/how-to-install-podman-on-debian-11/
+* https://blog.while-true-do.io/podman-encrypted-images/
 
 # <a id="container">Images/Container and settings</a>
 TODO
