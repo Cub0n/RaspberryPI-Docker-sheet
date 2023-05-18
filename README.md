@@ -144,11 +144,6 @@ $ systemctl --user daemon-reload
 $ curl --unix-socket /run/user/$UID/podman/podman.sock http://localhost/_ping
 ```
 
-* Logout from $USER
-```bash
-$ exit
-```
-
 * If you have an older images, you have to migrate them to the new runtime (default is _crun_ on Debian)
 ```bash
 $ podman system migrate --new-runtime crun
@@ -162,6 +157,11 @@ $ podman system prune --all
 * If the containers will not start after migration, one trick is to delete all images and pull them again
 ```bash
 $ podman system prune --all
+```
+
+* Logout from $USER
+```bash
+$ exit
 ```
 
 * If there still some problems, review your configuration in _~/.config/containers/_ (if you have already one for $USER) or under _/etc/containers/_ and _/etc/containers/networks/_
