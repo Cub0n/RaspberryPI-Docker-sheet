@@ -179,6 +179,7 @@ $ cp /usr/share/containers/storage.conf ~/.config/containers/
   * mount_program = "/usr/bin/fuse-overlayfs" (Path to an helper program to use for mounting the file system, programm will be installed automatically by apt)
 
 ### Migrate from podman start to systemd start
+Running podman containers can be started/stopped with systemd. To enable this, some commands have to be done for every container. This [script](https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/migrateToSystemd.sh) makes it a little bitmore automatic.
 
 
 ### Automatic Updates of containers
