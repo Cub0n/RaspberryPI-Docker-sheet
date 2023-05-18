@@ -179,16 +179,23 @@ $ cp /usr/share/containers/storage.conf ~/.config/containers/
   * mount_program = "/usr/bin/fuse-overlayfs" (Path to an helper program to use for mounting the file system, programm will be installed automatically by apt)
 
 ### Migrate from podman start to systemd start
-Running podman containers can be started/stopped with systemd. To enable this, some commands have to be done for every container. This [script](https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/migrateToSystemd.sh) makes it a little bitmore automatic.
-
+Running podman containers can be started/stopped with systemd. To enable this, some commands have to be done for every container. This [script](https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/migrateToSystemd.sh) makes it a little bit more automatic.
+* https://linuxhandbook.com/autostart-podman-containers/
 
 ### Automatic Updates of containers
-see https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/updateContainers.sh
+* https://blog.arrogantrabbit.com/net/podman/
+* https://linuxhandbook.com/update-podman-containers/
+* or manually, see https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/updateContainers.sh
 
 ### Further Documentation
+* https://www.imaginarycloud.com/blog/podman-vs-docker/
+* https://calinradoni.github.io/pages/210327-podman-systemd.html
 * https://github.com/containers/podman/blob/main/docs/tutorials/rootless_tutorial.md
 * https://linoxide.com/install-podman-on-debian/
 * https://wiki.archlinux.org/title/Podman#Rootless_Podman
+* https://developers.redhat.com/blog/2020/09/25/rootless-containers-with-podman-the-basics
+* https://linuxhandbook.com/rootless-podman/
+* https://www.tutorialworks.com/podman-rootless-volumes/
 * https://howtoforge.com/how-to-install-podman-on-debian-11/
 * https://blog.while-true-do.io/podman-encrypted-images/
 
