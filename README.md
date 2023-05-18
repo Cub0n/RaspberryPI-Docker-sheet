@@ -183,6 +183,7 @@ Running podman containers can be started/stopped with systemd. To enable this, s
 * https://linuxhandbook.com/autostart-podman-containers/
 
 ### Automatic Updates of containers
+Every container (which should be automatically updated) needs a label="io.containers.autoupdate=registry".
 * https://blog.arrogantrabbit.com/net/podman/
 * https://linuxhandbook.com/update-podman-containers/
 * or manually, see https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/updateContainers.sh
