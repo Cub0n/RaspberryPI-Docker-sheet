@@ -25,6 +25,7 @@ The operating system should be leightweight: No GUI ("headless"), no multimedia 
 * For Apparmor insert *lsm=apparmor* to */boot/cmdline.txt* (https://forums.raspberrypi.com/viewtopic.php?t=66748#p1834603)
 * For better IRQ handling install *irqbalance* (see: https://www.howtouselinux.com/post/linux-performance-irqbalance-service and https://openwrt.org/docs/guide-user/services/irqbalance)
 * Remove unnecessary packages (Desktop) in Raspbian (https://virtualzone.de/posts/raspberry-pi-os-remove-packages/)
+* Installation and configuration of one resolver in the OS is necessesary (systemd-resolved or resolvconf)
 
 # <a id="sec">Security</a>
 ## OS
@@ -43,12 +44,6 @@ The operating system should be leightweight: No GUI ("headless"), no multimedia 
 ### ufw
 ### firewalld
 ### apf (**NOT TESTED**)
-
-## IDS / IPS
-### Tripwire
-### Suricata
-### Fail2Ban
-
 
 # <a id="paas">PaaS</a>
 ## Runtime Plattforms
@@ -88,8 +83,13 @@ Docker Rootless is not supported or available as package in Raspbian. Therefore 
 * https://thenewstack.io/how-to-run-docker-in-rootless-mode/
 * https://mohitgoyal.co/2021/04/14/going-rootless-with-docker-and-containers/
 
-### Podman
+### Podman (on Debian 12 Bookworm)
 * Remove all Podman and/or Container related packages from your installation (*apt purge podman slirp4netns crun runc buildah*), if you have already installed some from other (non Debian, e.g. https://software.opensuse.org/download.html?project=devel%3Akubic%3Alibcontainers%3Astable&package=podman) sources. Otherwise you will encounter some problems if you mix the packages from the repos.
+
+* Install *podman* package and other packages from the repository (should also install overlay-fuse, netavark)
+```bash
+$ sudo apt install podman
+```
 
 * Install *uidmap* from the repo
 ```bash
@@ -103,7 +103,7 @@ $ sudo addgroup $GROUP
 $ sudo adduser --home /home/$USER --shell /bin/nologin --ingroup $GROUP --disabled-password --disabled-login $USER
 ```
 
-* Keep the deamons alive
+* Keep the daemons alive
 ```bash
 $ sudo loginctl enable-linger $USER
 ```
@@ -113,20 +113,10 @@ $ sudo loginctl enable-linger $USER
 $ sudo su --shell /bin/bash --login $USER
 ```
 
-* Add BUS and XDG to .bashrc or ...
-```bash
-$ echo "export XDG_RUNTIME_DIR=/run/user/$UID" >> ~/.bashrc
-$ echo "export DBUS_SESSION_BUS_ADDRESS=unix:path=${XDG_RUNTIME_DIR}/bus" >> ~/.bashrc
-```
-... set via systemctl (https://unix.stackexchange.com/questions/368730/starting-a-dbus-session-application-from-systemd-user-mode):
+* Add BUS and XDG via systemctl (https://unix.stackexchange.com/questions/368730/starting-a-dbus-session-application-from-systemd-user-mode):
 ```bash
 $ systemctl --user set-environment XDG_RUNTIME_DIR=/run/user/$UID
 $ systemctl --user set-environment DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
-```
-
-* Install *podman* package and other packages from the repository
-```bash
-$ sudo apt install podman
 ```
 
 * Enable podman socket for the current user
@@ -159,9 +149,9 @@ $ podman system prune --all
 $ exit
 ```
 
-* If there still some problems, review your configuration in _~/.config/containers/_ (if you have already one for $USER) or under _/etc/containers/_ and _/etc/containers/networks/_
+* If there are still some problems, review your configuration in _~/.config/containers/_ (if you have already one for $USER) or under _/etc/containers/_ and _/etc/containers/networks/_
 
-### Configuration
+#### Configuration
 * Copy the container and storage configuration to the $USER _~/.config_ directory
 ```bash
 $ cp /usr/share/containers/containers.conf ~/.config/containers/
@@ -178,12 +168,12 @@ $ cp /usr/share/containers/storage.conf ~/.config/containers/
   * runroot = "/run/user/$UID/containers" (Temporary storage location)
   * mount_program = "/usr/bin/fuse-overlayfs" (Path to an helper program to use for mounting the file system, programm will be installed automatically by apt)
 
-### Migrate from podman start to systemd start
+#### Migrate from podman start to systemd start
 Running podman containers can be started/stopped with systemd. To enable this, some commands have to be done for every container. This [script](https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/migrateToSystemd.sh) makes it a little bit more automatic.
 * https://linuxhandbook.com/autostart-podman-containers/
 
-### Automatic Updates of containers
-Every container (which should be automatically updated) needs a label="io.containers.autoupdate=registry".
+#### Automatic Updates of containers
+Every container (which should be automatically updated) needs a _label="io.containers.autoupdate=registry"_.
 * https://blog.arrogantrabbit.com/net/podman/
 * https://linuxhandbook.com/update-podman-containers/
 * or manually, see https://github.com/Cub0n/RaspberryPI-and-Container-configurations/blob/main/updateContainers.sh
